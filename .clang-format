@@ -1,0 +1,41 @@
+Language: Cpp
+BasedOnStyle: LLVM
+
+UseTab: false
+IndentWidth: 4
+ContinuationIndentWidth: 4
+IndentCaseLabels: true
+
+BreakBeforeBraces: Allman
+Cpp11BracedListStyle: false
+
+PointerAlignment: Left
+ReferenceAlignment: Left
+DerivePointerAlignment: false
+
+SpacesInParentheses: true
+SpaceBeforeParens: ControlStatements
+SpaceAfterCStyleCast: true
+
+AlignAfterOpenBracket: Align
+AlignOperands: Align
+AlignTrailingComments: true
+AlignEscapedNewlines: Left
+AlignArrayOfStructures: Left
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveDeclarations: Consecutive
+AlignConsecutiveBitFields: Consecutive
+AlignConsecutiveMacros: Consecutive
+
+ColumnLimit: 100
+AllowAllParametersOfDeclarationOnNextLine: true
+BinPackArguments: true
+BinPackParameters: true
+AllowShortFunctionsOnASingleLine: None
+
+SortIncludes: true
+IncludeBlocks: Preserve
+ReflowComments: true
+
+MaxEmptyLinesToKeep: 2
+KeepEmptyLinesAtTheStartOfBlocks: false
