@@ -32,6 +32,8 @@ const char* const _bbfpm__token__type__keywords[] = { "NONE",         "NAME",   
 _bbfpm__return_status _bbfpm__file__tokenized__initialize( _bbfpm__file__tokenized* file__tokenized,
                                                            const char*              file__path )
 {
+    memset( file__tokenized, 0, sizeof( _bbfpm__file__tokenized ) );
+
     _bbfpm__file* bbfpm_file = _bbfpm__open_bbfpm_file( file__path );
     if ( bbfpm_file == NULL )
         return _BBFPM__RETURN_STATUS__FAILURE;
@@ -47,10 +49,6 @@ _bbfpm__return_status _bbfpm__file__tokenized__initialize( _bbfpm__file__tokeniz
                                    "struct member: 'tokens'." );
         return _BBFPM__RETURN_STATUS__FAILURE;
     }
-
-    file__tokenized->tokens__current_character__line     = 0;
-    file__tokenized->tokens__current_character__column   = 0;
-    file__tokenized->tokens__current_character__position = 0;
 
     return _BBFPM__RETURN_STATUS__SUCCESS;
 }
