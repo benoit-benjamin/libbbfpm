@@ -128,3 +128,10 @@ set_target_properties(libbbfpm PROPERTIES
 	OUTPUT_NAME "bbfpm"
 	C_VISIBILITY_PRESET hidden
 )
+
+# =============== TESTING ===============
+
+enable_testing()
+add_subdirectory(
+	${CMAKE_CURRENT_SOURCE_DIR}/test
+)
