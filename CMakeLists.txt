@@ -114,6 +114,7 @@ target_link_libraries(libbbfpm PRIVATE
 	libbbfpm__parser
 	libbbfpm__schema
 	libbbfpm__data_mapper
+	libbbfpm__api
 )
 target_include_directories(libbbfpm PUBLIC
 	${CMAKE_CURRENT_SOURCE_DIR}/include
