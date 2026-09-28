@@ -20,10 +20,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../helper/io/output/types.h"
-#include "../helper/logging/logging.h"
-#include "../lexer/lexer.h"
+#include "lexer.h"
+#include "logging.h"
 #include "parser.h"
+#include "types.h"
 
 _bbfpm__return_status _bbfpm__file__parsed__initialize( _bbfpm__file__parsed* file__parsed,
                                                         const char*           file__path )

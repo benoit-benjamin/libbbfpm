@@ -20,9 +20,9 @@
 #include <stddef.h>
 #include <string.h>
 
-#include "../data_mapper/data_mapper.h"
-#include "../helper/logging/logging.h"
-#include "../parser/parser.h"
+#include "data_mapper.h"
+#include "logging.h"
+#include "parser.h"
 #include "schema.h"
 
 _bbfpm__field_schema _bbfpm__schema[] = {

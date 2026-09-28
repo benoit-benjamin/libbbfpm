@@ -19,8 +19,8 @@
 #ifndef BBFPM__PARSER__H
 #define BBFPM__PARSER__H
 
-#include "../helper/io/output/types.h"
-#include "../lexer/lexer.h"
+#include "lexer.h"
+#include "types.h"
 
 typedef enum _bbfpm__key__type
 {

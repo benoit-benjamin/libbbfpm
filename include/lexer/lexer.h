@@ -23,8 +23,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "../helper/io/input/file.h"
-#include "../helper/io/output/types.h"
+#include "file.h"
+#include "types.h"
 
 #define MAX__TOKEN__SIZE 64
 

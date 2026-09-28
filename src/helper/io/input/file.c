@@ -21,8 +21,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../../logging/logging.h"
 #include "file.h"
+#include "logging.h"
 
 _bbfpm__file* _bbfpm__open_bbfpm_file( const char* file_path )
 {
