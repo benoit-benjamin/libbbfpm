@@ -285,6 +285,8 @@ _bbfpm__parser__parse_key__key__type__none( _bbfpm__file__parsed* file__parsed, 
             !_bbfpm__parser__is_at_end( file__parsed ) )
         _bbfpm__parser__advance( file__parsed );
 
+    _bbfpm__parser__advance( file__parsed );
+
     return _BBFPM__RETURN_STATUS__SUCCESS;
 }
 
