@@ -17,7 +17,7 @@
  */
 
 #include "data_mapper.h"
-#include "../parser/parser.h"
+#include "parser.h"
 
 _bbfpm__return_status
 _bbfpm__map_metadata_from__file__parsed( _bbfpm__file__parsed*    file__parsed,
