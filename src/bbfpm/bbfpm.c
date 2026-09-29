@@ -188,6 +188,8 @@ BBFPM__CorrelatedArbitraryValueList BBFPM__GetMetadataAuthors( BBFPM__Metadata* 
 BBFPM__CorrelatedArbitraryValueList BBFPM__GetMetadataDependencies( BBFPM__Metadata* metadata )
 {
     BBFPM__CorrelatedArbitraryValueList list = { 0 };
+    if ( metadata->dependencies.value == NULL )
+        return list;
     list.correlations =
         calloc( metadata->dependencies.extent / 2, sizeof( BBFPM__CorrelatedArbitraryValue ) );
     for ( uint32_t index__arbitrary_value = 0;
