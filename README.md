@@ -2,6 +2,13 @@
 
 BBFPM (Benjamin Benoit's Format for Project Metadata) format processor library for C
 
+<div>
+    <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/benoit-benjamin/libbbfpm/cmake-single-platform.yml?style=plastic">
+    <img alt="GitHub License" src="https://img.shields.io/github/license/benoit-benjamin/libbbfpm?style=plastic">
+    <img alt="GitHub Release" src="https://img.shields.io/github/v/release/benoit-benjamin/libbbfpm?style=plastic">
+    <img alt="GitHub Tag" src="https://img.shields.io/github/v/tag/benoit-benjamin/libbbfpm?style=plastic">
+</div>
+
 ## Introduction
 
 BBFPM _(Benjamin Benoit's Format for Project Metadata)_ is a format created with the purpose of having project metadata (e.g: name, current version, last updated date, etc..) in one place, editing and accessing to it in an easy way.
