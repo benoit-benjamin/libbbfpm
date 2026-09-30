@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/benoit-benjamin/libbbfpm/compare/v1.0.0...v1.0.1) (2026-09-30)
+
+
+### Bug Fixes
+
+* **data_mapper:** include header needed for NULL keyword ([6ad989e](https://github.com/benoit-benjamin/libbbfpm/commit/6ad989e57a3511e31922a8aa6f19f08e778a5237))
+
 ## 1.0.0 (2026-09-29)
 
 
