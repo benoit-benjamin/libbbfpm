@@ -19,7 +19,7 @@
 #ifndef BBFPM__BBFPM__H
 #define BBFPM__BBFPM__H
 
-#include "export.h"
+#include "bbfpm/export.h"
 #include <stdint.h>
 
 typedef struct BBFPM__CorrelatedArbitraryValue

@@ -19,8 +19,8 @@
 #ifndef BBFPM__DATA_MAPPER__H
 #define BBFPM__DATA_MAPPER__H
 
-#include "parser.h"
-#include "types.h"
+#include "output/types.h"
+#include "parser/parser.h"
 
 typedef struct _bbfpm__data__entry
 {

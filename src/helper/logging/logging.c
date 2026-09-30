@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "logging.h"
+#include "logging/logging.h"
 
 void _bbfpm__log__print( _bbfpm__log__level log__level, const char* file__path,
                          const char* function, int line, const char* format, ... )

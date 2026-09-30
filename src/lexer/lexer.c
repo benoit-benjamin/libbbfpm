@@ -21,9 +21,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "file.h"
-#include "lexer.h"
-#include "logging.h"
+#include "input/file.h"
+#include "lexer/lexer.h"
+#include "logging/logging.h"
 
 const char* const _bbfpm__token__type__keywords[] = { "NONE",         "NAME",         "REPOSITORY",
                                                       "VERSION",      "RELEASE-DATE", "AUTHORS",

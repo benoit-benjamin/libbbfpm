@@ -19,10 +19,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bbfpm.h"
-#include "data_mapper.h"
-#include "parser.h"
-#include "schema.h"
+#include "bbfpm/bbfpm.h"
+#include "data_mapper/data_mapper.h"
+#include "parser/parser.h"
+#include "schema/schema.h"
 
 typedef struct BBFPM__Metadata
 {

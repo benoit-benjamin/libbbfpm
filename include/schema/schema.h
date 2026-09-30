@@ -22,7 +22,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include "parser.h"
+#include "parser/parser.h"
 
 typedef struct _bbfpm__field_schema
 {

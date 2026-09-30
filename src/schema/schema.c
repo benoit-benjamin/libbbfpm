@@ -20,10 +20,10 @@
 #include <stddef.h>
 #include <string.h>
 
-#include "data_mapper.h"
-#include "logging.h"
-#include "parser.h"
-#include "schema.h"
+#include "data_mapper/data_mapper.h"
+#include "logging/logging.h"
+#include "parser/parser.h"
+#include "schema/schema.h"
 
 _bbfpm__field_schema _bbfpm__schema[] = {
     { "NAME", _BBFPM__KEY__TYPE__ARBITRARY, false, offsetof( _bbfpm__mapped_metadata, name ) },

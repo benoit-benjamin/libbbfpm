@@ -13,19 +13,19 @@ add_library(libbbfpm__helper__logging OBJECT
 	${CMAKE_CURRENT_SOURCE_DIR}/src/helper/logging/logging.c
 )
 target_include_directories(libbbfpm__helper__logging PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}/include/helper/logging
+	${CMAKE_CURRENT_SOURCE_DIR}/include/helper
 )
 
 add_library(libbbfpm__helper__io__output INTERFACE)
 target_include_directories(libbbfpm__helper__io__output INTERFACE
-	${CMAKE_CURRENT_SOURCE_DIR}/include/helper/io/output
+	${CMAKE_CURRENT_SOURCE_DIR}/include/helper/io
 )
 
 add_library(libbbfpm__helper__io__input OBJECT
 	${CMAKE_CURRENT_SOURCE_DIR}/src/helper/io/input/file.c
 )
 target_include_directories(libbbfpm__helper__io__input PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}/include/helper/io/input
+	${CMAKE_CURRENT_SOURCE_DIR}/include/helper/io
 )
 target_link_libraries(libbbfpm__helper__io__input
 	PRIVATE
@@ -37,7 +37,7 @@ add_library(libbbfpm__lexer OBJECT
 	${CMAKE_CURRENT_SOURCE_DIR}/src/lexer/lexer.c
 )
 target_include_directories(libbbfpm__lexer PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}/include/lexer
+	${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 target_link_libraries(libbbfpm__lexer
 	PRIVATE
@@ -52,7 +52,7 @@ add_library(libbbfpm__parser OBJECT
 	${CMAKE_CURRENT_SOURCE_DIR}/src/parser/parser.c
 )
 target_include_directories(libbbfpm__parser PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}/include/parser
+	${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 target_link_libraries(libbbfpm__parser
 	PRIVATE
@@ -67,7 +67,7 @@ add_library(libbbfpm__schema OBJECT
 	${CMAKE_CURRENT_SOURCE_DIR}/src/schema/schema.c
 )
 target_include_directories(libbbfpm__schema PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}/include/schema
+	${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 target_link_libraries(libbbfpm__schema
 	PRIVATE
@@ -82,7 +82,7 @@ add_library(libbbfpm__data_mapper OBJECT
 	${CMAKE_CURRENT_SOURCE_DIR}/src/data_mapper/data_mapper.c
 )
 target_include_directories(libbbfpm__data_mapper PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}/include/data_mapper
+	${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 target_link_libraries(libbbfpm__data_mapper
 	PUBLIC
@@ -95,7 +95,7 @@ add_library(libbbfpm__api OBJECT
 	${CMAKE_CURRENT_SOURCE_DIR}/src/bbfpm/bbfpm.c
 )
 target_include_directories(libbbfpm__api PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}/include/bbfpm
+	${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 target_link_libraries(libbbfpm__api
 	PRIVATE
