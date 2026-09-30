@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <stddef.h>
+
 #include "data_mapper/data_mapper.h"
 #include "data_mapper/types.h"
 #include "output/types.h"
