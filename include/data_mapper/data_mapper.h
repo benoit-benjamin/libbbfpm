@@ -1,5 +1,5 @@
 /*
- * data_mapper.h - data mapping functions and data structures for parsed and verified data
+ * data_mapper.h - functions for parsed and validated data
  * Copyright (C) 2026  Benjamin Benoit
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,25 +19,9 @@
 #ifndef BBFPM__DATA_MAPPER__H
 #define BBFPM__DATA_MAPPER__H
 
+#include "data_mapper/types.h"
 #include "output/types.h"
-#include "parser/parser.h"
-
-typedef struct _bbfpm__data__entry
-{
-    void*    value;
-    uint32_t extent;
-} _bbfpm__data__entry;
-
-typedef struct _bbfpm__data
-{
-    _bbfpm__data__entry name;
-    _bbfpm__data__entry repository;
-    _bbfpm__data__entry version;
-    _bbfpm__data__entry release_date;
-    _bbfpm__data__entry license;
-    _bbfpm__data__entry authors;
-    _bbfpm__data__entry dependencies;
-} _bbfpm__mapped_metadata;
+#include "parser/types.h"
 
 _bbfpm__return_status
 _bbfpm__map_metadata_from__file__parsed( _bbfpm__file__parsed*    file__parsed,
