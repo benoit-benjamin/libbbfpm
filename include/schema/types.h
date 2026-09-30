@@ -1,5 +1,5 @@
 /*
- * schema.h - functions for schema validation
+ * types.h - data structures for schema validation
  * Copyright (C) 2026  Benjamin Benoit
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,14 +16,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef BBFPM__SCHEMA__SCHEMA__H
-#define BBFPM__SCHEMA__SCHEMA__H
+#ifndef BBFPM__SCHEMA__TYPES__H
+#define BBFPM__SCHEMA__TYPES__H
 
 #include <stdbool.h>
-#include <stddef.h>
 
 #include "parser/types.h"
 
-bool _bbfpm__verify__file__parsed__through_schema( _bbfpm__file__parsed* file__parsed );
+typedef struct _bbfpm__field_schema
+{
+    const char*       name;
+    _bbfpm__key__type type;
+    bool              none_allowed;
+    uint64_t          offset;
+} _bbfpm__field_schema;
+
+extern _bbfpm__field_schema _bbfpm__schema[];
 
 #endif

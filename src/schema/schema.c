@@ -1,5 +1,5 @@
 /*
- * schema.c - functions and data structures for validating metadata key entries
+ * schema.c - functions for schema validation
  * Copyright (C) 2026  Benjamin Benoit
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,25 +20,9 @@
 #include <stddef.h>
 #include <string.h>
 
-#include "data_mapper/data_mapper.h"
 #include "logging/logging.h"
-#include "parser/parser.h"
 #include "schema/schema.h"
-
-_bbfpm__field_schema _bbfpm__schema[] = {
-    { "NAME", _BBFPM__KEY__TYPE__ARBITRARY, false, offsetof( _bbfpm__mapped_metadata, name ) },
-    { "REPOSITORY", _BBFPM__KEY__TYPE__ARBITRARY, true,
-     offsetof( _bbfpm__mapped_metadata, repository ) },
-    { "VERSION", _BBFPM__KEY__TYPE__ARBITRARY, true, offsetof( _bbfpm__mapped_metadata, version ) },
-    { "RELEASE-DATE", _BBFPM__KEY__TYPE__ARBITRARY, true,
-     offsetof( _bbfpm__mapped_metadata, release_date ) },
-    { "AUTHORS", _BBFPM__KEY__TYPE__LIST_CORRELATED_ARBITRARY, false,
-     offsetof( _bbfpm__mapped_metadata, authors ) },
-    { "DEPENDENCIES", _BBFPM__KEY__TYPE__LIST_CORRELATED_ARBITRARY, true,
-     offsetof( _bbfpm__mapped_metadata, dependencies ) },
-    { "LICENSE", _BBFPM__KEY__TYPE__ARBITRARY, true, offsetof( _bbfpm__mapped_metadata, license ) },
-    { NULL, _BBFPM__KEY__TYPE__UNDEFINED, false, 0 }
-};
+#include "schema/types.h"
 
 bool _bbfpm__verify__file__parsed__through_schema( _bbfpm__file__parsed* file__parsed )
 {

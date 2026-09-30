@@ -69,6 +69,7 @@ target_link_libraries(libbbfpm__parser
 # --------------- SCHEMA ---------------
 add_library(libbbfpm__schema OBJECT
 	${CMAKE_CURRENT_SOURCE_DIR}/src/schema/schema.c
+	${CMAKE_CURRENT_SOURCE_DIR}/src/schema/types.c
 )
 target_include_directories(libbbfpm__schema PUBLIC
 	${CMAKE_CURRENT_SOURCE_DIR}/include
