@@ -19,10 +19,10 @@
 #ifndef BBFPM__TYPES__H
 #define BBFPM__TYPES__H
 
-typedef enum _bbfpm__return_status
+typedef enum _output__status
 {
-    _BBFPM__RETURN_STATUS__FAILURE,
-    _BBFPM__RETURN_STATUS__SUCCESS,
-} _bbfpm__return_status;
+    _OUTPUT__STATUS__FAILURE,
+    _OUTPUT__STATUS__SUCCESS,
+} _output__status;
 
 #endif

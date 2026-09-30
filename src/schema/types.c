@@ -21,17 +21,17 @@
 #include "data_mapper/types.h"
 #include "schema/types.h"
 
-_bbfpm__field_schema _bbfpm__schema[] = {
-    { "NAME", _BBFPM__KEY__TYPE__ARBITRARY, false, offsetof( _bbfpm__mapped_metadata, name ) },
+_schema__field _bbfpm__schema[] = {
+    { "NAME", _BBFPM__KEY__TYPE__ARBITRARY, false, offsetof( _data_mapper__metadata, name ) },
     { "REPOSITORY", _BBFPM__KEY__TYPE__ARBITRARY, true,
-     offsetof( _bbfpm__mapped_metadata, repository ) },
-    { "VERSION", _BBFPM__KEY__TYPE__ARBITRARY, true, offsetof( _bbfpm__mapped_metadata, version ) },
+     offsetof( _data_mapper__metadata, repository ) },
+    { "VERSION", _BBFPM__KEY__TYPE__ARBITRARY, true, offsetof( _data_mapper__metadata, version ) },
     { "RELEASE-DATE", _BBFPM__KEY__TYPE__ARBITRARY, true,
-     offsetof( _bbfpm__mapped_metadata, release_date ) },
+     offsetof( _data_mapper__metadata, release_date ) },
     { "AUTHORS", _BBFPM__KEY__TYPE__LIST_CORRELATED_ARBITRARY, false,
-     offsetof( _bbfpm__mapped_metadata, authors ) },
+     offsetof( _data_mapper__metadata, authors ) },
     { "DEPENDENCIES", _BBFPM__KEY__TYPE__LIST_CORRELATED_ARBITRARY, true,
-     offsetof( _bbfpm__mapped_metadata, dependencies ) },
-    { "LICENSE", _BBFPM__KEY__TYPE__ARBITRARY, true, offsetof( _bbfpm__mapped_metadata, license ) },
+     offsetof( _data_mapper__metadata, dependencies ) },
+    { "LICENSE", _BBFPM__KEY__TYPE__ARBITRARY, true, offsetof( _data_mapper__metadata, license ) },
     { NULL, _BBFPM__KEY__TYPE__UNDEFINED, false, 0 }
 };

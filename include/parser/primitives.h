@@ -24,10 +24,10 @@
 #include "lexer/types.h"
 #include "parser/types.h"
 
-bool          _bbfpm__parser__is_at_end( _bbfpm__file__parsed* file__parsed );
-_bbfpm__token _bbfpm__parser__peek( _bbfpm__file__parsed* file__parsed );
-_bbfpm__token _bbfpm__parser__advance( _bbfpm__file__parsed* file__parsed );
-_bbfpm__token _bbfpm__parser__peek_next( _bbfpm__file__parsed* file__parsed, uint64_t offset );
-bool          _bbfpm__parser__match( _bbfpm__file__parsed* file__parsed, _bbfpm__token expected );
+bool          _parser__is_at_end( _parser__file__parsed* file__parsed );
+_lexer__token _parser__peek( _parser__file__parsed* file__parsed );
+_lexer__token _parser__advance( _parser__file__parsed* file__parsed );
+_lexer__token _parser__peek_next( _parser__file__parsed* file__parsed, uint64_t offset );
+bool          _parser__match( _parser__file__parsed* file__parsed, _lexer__token expected );
 
 #endif

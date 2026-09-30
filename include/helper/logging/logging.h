@@ -21,34 +21,34 @@
 
 #define MAX__LOG__MESSAGE__SIZE 2048
 
-typedef enum _bbfpm__log__level
+typedef enum _logging__level
 {
     // Skipped trace logging level because of code
     // legibility.
-    _BBFPM__LOG__LEVEL__DEBUG = 0,
-    _BBFPM__LOG__LEVEL__INFO  = 1,
-    _BBFPM__LOG__LEVEL__WARN  = 2,
-    _BBFPM__LOG__LEVEL__ERROR = 3,
-    _BBFPM__LOG__LEVEL__FATAL = 4,
-} _bbfpm__log__level;
+    _LOGGING__LEVEL__DEBUG = 0,
+    _LOGGING__LEVEL__INFO  = 1,
+    _LOGGING__LEVEL__WARN  = 2,
+    _LOGGING__LEVEL__ERROR = 3,
+    _LOGGING__LEVEL__FATAL = 4,
+} _logging__level;
 
-void _bbfpm__log__print( _bbfpm__log__level log__level, const char* file__path,
-                         const char* function, int line, const char* format, ... );
+void _logging__print( _logging__level log__level, const char* file__path, const char* function,
+                      int line, const char* format, ... );
 
-#define _BBFPM__LOG__PRINT__DEBUG( ... ) \
-    _bbfpm__log__print( _BBFPM__LOG__LEVEL__DEBUG, __FILE__, __func__, __LINE__, ##__VA_ARGS__ )
+#define _LOGGING__PRINT__DEBUG( ... ) \
+    _logging__print( _LOGGING__LEVEL__DEBUG, __FILE__, __func__, __LINE__, ##__VA_ARGS__ )
 
-#define _BBFPM__LOG__PRINT__INFO( ... ) \
-    _bbfpm__log__print( _BBFPM__LOG__LEVEL__INFO, __FILE__, __func__, __LINE__, ##__VA_ARGS__ )
+#define _LOGGING__PRINT__INFO( ... ) \
+    _logging__print( _LOGGING__LEVEL__INFO, __FILE__, __func__, __LINE__, ##__VA_ARGS__ )
 
-#define _BBFPM__LOG__PRINT__WARN( ... ) \
-    _bbfpm__log__print( _BBFPM__LOG__LEVEL__WARN, __FILE__, __func__, __LINE__, ##__VA_ARGS__ )
+#define _LOGGING__PRINT__WARN( ... ) \
+    _logging__print( _LOGGING__LEVEL__WARN, __FILE__, __func__, __LINE__, ##__VA_ARGS__ )
 
-#define _BBFPM__LOG__PRINT__ERROR( ... ) \
-    _bbfpm__log__print( _BBFPM__LOG__LEVEL__ERROR, __FILE__, __func__, __LINE__, ##__VA_ARGS__ )
+#define _LOGGING__PRINT__ERROR( ... ) \
+    _logging__print( _LOGGING__LEVEL__ERROR, __FILE__, __func__, __LINE__, ##__VA_ARGS__ )
 
-#define _BBFPM__LOG__PRINT__FATAL( ... ) \
-    _bbfpm__log__print( _BBFPM__LOG__LEVEL__FATAL, __FILE__, __func__, __LINE__, ##__VA_ARGS__ )
+#define _LOGGING__PRINT__FATAL( ... ) \
+    _logging__print( _LOGGING__LEVEL__FATAL, __FILE__, __func__, __LINE__, ##__VA_ARGS__ )
 
 
 #endif

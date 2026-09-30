@@ -23,11 +23,10 @@
 #include "output/types.h"
 #include "parser/types.h"
 
-_bbfpm__return_status
-_bbfpm__map_metadata_from__file__parsed( _bbfpm__file__parsed*    file__parsed,
-                                         _bbfpm__mapped_metadata* mapped_metadata );
+_output__status _data_mapper__map_metadata( _parser__file__parsed*  file__parsed,
+                                            _data_mapper__metadata* mapped_metadata );
 
-_bbfpm__return_status _bbfpm__mapped_metadata__free( _bbfpm__mapped_metadata* mapped_metadata,
-                                                     _bbfpm__file__parsed*    file__parsed );
+_output__status _data_mapper__metadata__free( _data_mapper__metadata* mapped_metadata,
+                                              _parser__file__parsed*  file__parsed );
 
 #endif

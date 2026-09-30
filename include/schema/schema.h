@@ -24,6 +24,6 @@
 
 #include "parser/types.h"
 
-bool _bbfpm__verify__file__parsed__through_schema( _bbfpm__file__parsed* file__parsed );
+bool _schema__validate( _parser__file__parsed* file__parsed );
 
 #endif

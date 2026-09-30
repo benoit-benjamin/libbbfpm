@@ -19,14 +19,14 @@
 #ifndef BBFPM__FILE__H
 #define BBFPM__FILE__H
 
-typedef struct _bbfpm__file
+typedef struct _input__file
 {
     char* content;
     long  size;
-} _bbfpm__file;
+} _input__file;
 
-_bbfpm__file* _bbfpm__open_bbfpm_file( const char* file_path );
-void          _bbfpm__close_bbfpm_file( _bbfpm__file* file );
+_input__file* _input__file__open( const char* file_path );
+void          _input__file__close( _input__file* file );
 
 
 #endif

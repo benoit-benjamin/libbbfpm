@@ -20,7 +20,7 @@
 #include "lexer/types.h"
 #include "parser/types.h"
 
-bool _bbfpm__parser__is_at_end( _bbfpm__file__parsed* file__parsed )
+bool _parser__is_at_end( _parser__file__parsed* file__parsed )
 {
     if ( file__parsed->file__tokenized->tokens__current_token__position >=
          file__parsed->file__tokenized->tokens__total )
@@ -30,25 +30,25 @@ bool _bbfpm__parser__is_at_end( _bbfpm__file__parsed* file__parsed )
     return false;
 }
 
-_bbfpm__token _bbfpm__parser__peek( _bbfpm__file__parsed* file__parsed )
+_lexer__token _parser__peek( _parser__file__parsed* file__parsed )
 {
     return file__parsed->file__tokenized
         ->tokens[file__parsed->file__tokenized->tokens__current_token__position];
 }
 
-_bbfpm__token _bbfpm__parser__advance( _bbfpm__file__parsed* file__parsed )
+_lexer__token _parser__advance( _parser__file__parsed* file__parsed )
 {
-    if ( !_bbfpm__parser__is_at_end( file__parsed ) )
+    if ( !_parser__is_at_end( file__parsed ) )
     {
         return file__parsed->file__tokenized
             ->tokens[file__parsed->file__tokenized->tokens__current_token__position++];
     }
-    return (_bbfpm__token) {
-        .type = _BBFPM__TOKEN__TYPE__UNDEFINED, .column = 0, .line = 0, .value = { 0 }
+    return (_lexer__token) {
+        .type = _LEXER__TOKEN__TYPE__UNDEFINED, .column = 0, .line = 0, .value = { 0 }
     };
 }
 
-_bbfpm__token _bbfpm__parser__peek_next( _bbfpm__file__parsed* file__parsed, uint64_t offset )
+_lexer__token _parser__peek_next( _parser__file__parsed* file__parsed, uint64_t offset )
 {
     if ( file__parsed->file__tokenized->tokens__total >
          file__parsed->file__tokenized->tokens__current_token__position + offset )
@@ -56,18 +56,18 @@ _bbfpm__token _bbfpm__parser__peek_next( _bbfpm__file__parsed* file__parsed, uin
         return file__parsed->file__tokenized
             ->tokens[file__parsed->file__tokenized->tokens__current_token__position + offset];
     }
-    return (_bbfpm__token) {
-        .type = _BBFPM__TOKEN__TYPE__UNDEFINED, .column = 0, .line = 0, .value = { 0 }
+    return (_lexer__token) {
+        .type = _LEXER__TOKEN__TYPE__UNDEFINED, .column = 0, .line = 0, .value = { 0 }
     };
 }
 
-bool _bbfpm__parser__match( _bbfpm__file__parsed* file__parsed, _bbfpm__token expected )
+bool _parser__match( _parser__file__parsed* file__parsed, _lexer__token expected )
 {
     if ( file__parsed->file__tokenized
              ->tokens[file__parsed->file__tokenized->tokens__current_token__position]
              .type == expected.type )
     {
-        ( !_bbfpm__parser__is_at_end( file__parsed ) )
+        ( !_parser__is_at_end( file__parsed ) )
             ? ++file__parsed->file__tokenized->tokens__current_token__position
             : file__parsed->file__tokenized->tokens__current_token__position;
         return true;

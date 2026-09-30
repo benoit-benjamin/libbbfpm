@@ -23,27 +23,26 @@
 #include "output/types.h"
 #include "parser/types.h"
 
-_bbfpm__return_status
-_bbfpm__map_metadata_from__file__parsed( _bbfpm__file__parsed*    file__parsed,
-                                         _bbfpm__mapped_metadata* mapped_metadata )
+_output__status _data_mapper__map_metadata( _parser__file__parsed*  file__parsed,
+                                            _data_mapper__metadata* mapped_metadata )
 {
     for ( uint64_t index__keys = 0; index__keys < file__parsed->keys__total; index__keys++ )
     {
-        _bbfpm__key          current_key = file__parsed->keys[index__keys];
-        _bbfpm__data__entry* data_entry =
-            (_bbfpm__data__entry*) ( (char*) mapped_metadata + current_key.offset );
+        _parser__key         current_key = file__parsed->keys[index__keys];
+        _data_mapper__entry* data_entry =
+            (_data_mapper__entry*) ( (char*) mapped_metadata + current_key.offset );
         data_entry->value  = current_key.value;
         data_entry->extent = current_key.value__size;
     }
 
-    return _BBFPM__RETURN_STATUS__SUCCESS;
+    return _OUTPUT__STATUS__SUCCESS;
 }
 
-_bbfpm__return_status _bbfpm__mapped_metadata__free( _bbfpm__mapped_metadata* mapped_metadata,
-                                                     _bbfpm__file__parsed*    file__parsed )
+_output__status _data_mapper__metadata__free( _data_mapper__metadata* mapped_metadata,
+                                              _parser__file__parsed*  file__parsed )
 {
-    if ( _bbfpm__file__parsed__free( file__parsed ) == _BBFPM__RETURN_STATUS__FAILURE )
-        return _BBFPM__RETURN_STATUS__FAILURE;
+    if ( _parser__file__parsed__free( file__parsed ) == _OUTPUT__STATUS__FAILURE )
+        return _OUTPUT__STATUS__FAILURE;
 
     mapped_metadata->name.value         = NULL;
     mapped_metadata->repository.value   = NULL;
@@ -53,5 +52,5 @@ _bbfpm__return_status _bbfpm__mapped_metadata__free( _bbfpm__mapped_metadata* ma
     mapped_metadata->dependencies.value = NULL;
     mapped_metadata->license.value      = NULL;
 
-    return _BBFPM__RETURN_STATUS__SUCCESS;
+    return _OUTPUT__STATUS__SUCCESS;
 }

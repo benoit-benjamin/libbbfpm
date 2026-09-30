@@ -23,11 +23,11 @@
 
 #include "lexer/types.h"
 
-bool _bbfpm__lexer__is_at_end( _bbfpm__file__tokenized* file__tokenized );
-char _bbfpm__lexer__peek( _bbfpm__file__tokenized* file__tokenized );
-char _bbfpm__lexer__advance( _bbfpm__file__tokenized* file__tokenized );
-char _bbfpm__lexer__rewind( _bbfpm__file__tokenized* file__tokenized );
-char _bbfpm__lexer__peek_next( _bbfpm__file__tokenized* file__tokenized, uint64_t offset );
-bool _bbfpm__lexer__match( _bbfpm__file__tokenized* file__tokenized, char expected );
+bool _lexer__is_at_end( _lexer__file__tokenized* file__tokenized );
+char _lexer__peek( _lexer__file__tokenized* file__tokenized );
+char _lexer__advance( _lexer__file__tokenized* file__tokenized );
+char _lexer__rewind( _lexer__file__tokenized* file__tokenized );
+char _lexer__peek_next( _lexer__file__tokenized* file__tokenized, uint64_t offset );
+bool _lexer__match( _lexer__file__tokenized* file__tokenized, char expected );
 
 #endif

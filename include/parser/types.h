@@ -23,33 +23,33 @@
 
 #include "lexer/types.h"
 
-typedef enum _bbfpm__key__type
+typedef enum _parser__key__type
 {
     _BBFPM__KEY__TYPE__ARBITRARY,
     _BBFPM__KEY__TYPE__LIST_CORRELATED_ARBITRARY,
     _BBFPM__KEY__TYPE__NONE,
     _BBFPM__KEY__TYPE__UNDEFINED,
-} _bbfpm__key__type;
+} _parser__key__type;
 
-typedef struct _bbfpm__key
+typedef struct _parser__key
 {
-    char              name[MAX__TOKEN__SIZE];
-    _bbfpm__key__type type;
-    void*             value;
-    uint32_t          value__size;
-    uint64_t          offset;
-} _bbfpm__key;
+    char               name[MAX__TOKEN__SIZE];
+    _parser__key__type type;
+    void*              value;
+    uint32_t           value__size;
+    uint64_t           offset;
+} _parser__key;
 
-typedef struct _bbfpm__file__parsed
+typedef struct _parser__file__parsed
 {
-    _bbfpm__key*             keys;
-    _bbfpm__file__tokenized* file__tokenized;
+    _parser__key*            keys;
+    _lexer__file__tokenized* file__tokenized;
     uint64_t                 keys__capacity;
     uint64_t                 keys__total;
-} _bbfpm__file__parsed;
+} _parser__file__parsed;
 
-_bbfpm__return_status _bbfpm__file__parsed__initialize( _bbfpm__file__parsed* file__parsed,
-                                                        const char*           file__path );
-_bbfpm__return_status _bbfpm__file__parsed__free( _bbfpm__file__parsed* file__parsed );
+_output__status _parser__file__parsed__initialize( _parser__file__parsed* file__parsed,
+                                                   const char*            file__path );
+_output__status _parser__file__parsed__free( _parser__file__parsed* file__parsed );
 
 #endif

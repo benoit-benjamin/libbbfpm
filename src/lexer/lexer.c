@@ -25,51 +25,49 @@
 #include "lexer/primitives.h"
 #include "logging/logging.h"
 
-_bbfpm__return_status _bbfpm__lexer__push_token( _bbfpm__file__tokenized* file__tokenized,
-                                                 _bbfpm__token            token )
+_output__status _lexer__token__push( _lexer__file__tokenized* file__tokenized, _lexer__token token )
 {
     if ( file__tokenized->tokens__capacity / 2 <= file__tokenized->tokens__total )
     {
         if ( ( file__tokenized->tokens =
                    reallocarray( file__tokenized->tokens, file__tokenized->tokens__capacity * 2,
-                                 sizeof( _bbfpm__token ) ) ) == NULL )
+                                 sizeof( _lexer__token ) ) ) == NULL )
         {
-            _BBFPM__LOG__PRINT__FATAL( "lexer: couldn't reallocate allocated memory on "
-                                       "_bbfpm__file__tokenized struct member: 'tokens'." );
-            return _BBFPM__RETURN_STATUS__FAILURE;
+            _LOGGING__PRINT__FATAL( "lexer: couldn't reallocate allocated memory on "
+                                    "_lexer__file__tokenized struct member: 'tokens'." );
+            return _OUTPUT__STATUS__FAILURE;
         }
         file__tokenized->tokens__capacity *= 2;
     }
     file__tokenized->tokens[file__tokenized->tokens__total++] = token;
-    return _BBFPM__RETURN_STATUS__SUCCESS;
+    return _OUTPUT__STATUS__SUCCESS;
 }
 
-_bbfpm__token _bbfpm__lexer__scan_token__character( _bbfpm__file__tokenized* file__tokenized,
-                                                    _bbfpm__token__type      type )
+_lexer__token _lexer__token__scan__character( _lexer__file__tokenized* file__tokenized,
+                                              _lexer__token__type      type )
 {
-    _bbfpm__token token = {
+    _lexer__token token = {
         .type   = type,
         .value  = { 0 },
         .line   = file__tokenized->tokens__current_character__line,
         .column = file__tokenized->tokens__current_character__column,
     };
 
-    if ( type == _BBFPM__TOKEN__TYPE__CHARACTER__HASH )
+    if ( type == _LEXER__TOKEN__TYPE__CHARACTER__HASH )
     {
-        while ( _bbfpm__lexer__peek( file__tokenized ) != '\n' &&
-                !_bbfpm__lexer__is_at_end( file__tokenized ) )
+        while ( _lexer__peek( file__tokenized ) != '\n' && !_lexer__is_at_end( file__tokenized ) )
         {
-            _bbfpm__lexer__advance( file__tokenized );
+            _lexer__advance( file__tokenized );
         }
     }
 
     return token;
 }
 
-_bbfpm__token _bbfpm__lexer__scan_token__keyword( _bbfpm__file__tokenized* file__tokenized )
+_lexer__token _lexer__token__scan__keyword( _lexer__file__tokenized* file__tokenized )
 {
-    _bbfpm__token token = {
-        .type   = _BBFPM__TOKEN__TYPE__UNDEFINED,
+    _lexer__token token = {
+        .type   = _LEXER__TOKEN__TYPE__UNDEFINED,
         .value  = { 0 },
         .line   = file__tokenized->tokens__current_character__line,
         .column = file__tokenized->tokens__current_character__column,
@@ -80,43 +78,42 @@ _bbfpm__token _bbfpm__lexer__scan_token__keyword( _bbfpm__file__tokenized* file_
 
     char current_character = 0;
 
-    _bbfpm__lexer__rewind( file__tokenized );
-    current_character = _bbfpm__lexer__peek( file__tokenized );
+    _lexer__rewind( file__tokenized );
+    current_character = _lexer__peek( file__tokenized );
 
     keyword[keyword__length++] = current_character;
 
-    _bbfpm__lexer__advance( file__tokenized );
+    _lexer__advance( file__tokenized );
 
-    while ( ( current_character = _bbfpm__lexer__peek( file__tokenized ) ) != ':' &&
-            current_character != '\n' && !_bbfpm__lexer__is_at_end( file__tokenized ) )
+    while ( ( current_character = _lexer__peek( file__tokenized ) ) != ':' &&
+            current_character != '\n' && !_lexer__is_at_end( file__tokenized ) )
     {
         if ( keyword__length >= MAX__TOKEN__SIZE - 1 )
         {
-            _BBFPM__LOG__PRINT__ERROR(
+            _LOGGING__PRINT__ERROR(
                 "lexer: keyword scanned exceeds maximum token size. (maximum token size: %d)",
                 MAX__TOKEN__SIZE );
             return token;
         }
         keyword[keyword__length++] = current_character;
-        _bbfpm__lexer__advance( file__tokenized );
+        _lexer__advance( file__tokenized );
     }
 
-    for ( uint8_t keyword_index = 0; _bbfpm__token__type__keywords[keyword_index] != NULL;
-          keyword_index++ )
+    for ( uint8_t keyword_index = 0; _lexer__keywords[keyword_index] != NULL; keyword_index++ )
     {
-        if ( strcmp( keyword, _bbfpm__token__type__keywords[keyword_index] ) == 0 )
+        if ( strcmp( keyword, _lexer__keywords[keyword_index] ) == 0 )
         {
-            token.type = (_bbfpm__token__type) keyword_index;
+            token.type = (_lexer__token__type) keyword_index;
         }
     }
 
     return token;
 }
 
-_bbfpm__token _bbfpm__lexer__scan_token__arbitrary_value( _bbfpm__file__tokenized* file__tokenized )
+_lexer__token _lexer__token__scan__arbitrary_value( _lexer__file__tokenized* file__tokenized )
 {
-    _bbfpm__token token = {
-        .type   = _BBFPM__TOKEN__TYPE__UNDEFINED,
+    _lexer__token token = {
+        .type   = _LEXER__TOKEN__TYPE__UNDEFINED,
         .value  = { 0 },
         .line   = file__tokenized->tokens__current_character__line,
         .column = file__tokenized->tokens__current_character__column,
@@ -127,23 +124,23 @@ _bbfpm__token _bbfpm__lexer__scan_token__arbitrary_value( _bbfpm__file__tokenize
 
     char current_character = 0;
 
-    while ( ( current_character = _bbfpm__lexer__peek( file__tokenized ) ) != '"' &&
-            current_character != '\n' && !_bbfpm__lexer__is_at_end( file__tokenized ) )
+    while ( ( current_character = _lexer__peek( file__tokenized ) ) != '"' &&
+            current_character != '\n' && !_lexer__is_at_end( file__tokenized ) )
     {
         if ( arbitrary_value__length >= MAX__TOKEN__SIZE - 1 )
         {
-            _BBFPM__LOG__PRINT__ERROR(
+            _LOGGING__PRINT__ERROR(
                 "lexer: keyword scanned exceeds maximum token size. (maximum token size: %d)",
                 MAX__TOKEN__SIZE );
             return token;
         }
         arbitrary_value[arbitrary_value__length++] = current_character;
-        _bbfpm__lexer__advance( file__tokenized );
+        _lexer__advance( file__tokenized );
     }
 
     if ( current_character == '"' )
     {
-        token.type = _BBFPM__TOKEN__TYPE__VALUE__ARBITRARY;
+        token.type = _LEXER__TOKEN__TYPE__VALUE__ARBITRARY;
         strncpy( token.value, arbitrary_value, MAX__TOKEN__SIZE - 1 );
         token.value[arbitrary_value__length] = '\0';
     }
@@ -151,102 +148,99 @@ _bbfpm__token _bbfpm__lexer__scan_token__arbitrary_value( _bbfpm__file__tokenize
     return token;
 }
 
-_bbfpm__return_status _bbfpm__lexer__scan_token( _bbfpm__file__tokenized* file__tokenized )
+_output__status _lexer__token__scan( _lexer__file__tokenized* file__tokenized )
 {
-    _bbfpm__token token                  = { 0 };
-    _bbfpm__token token__arbitrary_value = { 0 };
-    char          current_character      = _bbfpm__lexer__advance( file__tokenized );
+    _lexer__token token                  = { 0 };
+    _lexer__token token__arbitrary_value = { 0 };
+    char          current_character      = _lexer__advance( file__tokenized );
 
     file__tokenized->tokens__current_character__column++;
 
     if ( isspace( current_character ) && current_character != '\n' )
-        return _BBFPM__RETURN_STATUS__SUCCESS;
+        return _OUTPUT__STATUS__SUCCESS;
 
     switch ( current_character )
     {
         case EOF:
-            token = _bbfpm__lexer__scan_token__character( file__tokenized,
-                                                          _BBFPM__TOKEN__TYPE__CHARACTER__EOF );
+            token = _lexer__token__scan__character( file__tokenized,
+                                                    _LEXER__TOKEN__TYPE__CHARACTER__EOF );
             break;
         case '\n':
-            token = _bbfpm__lexer__scan_token__character(
-                file__tokenized, _BBFPM__TOKEN__TYPE__CHARACTER__LINE_FEED );
+            token = _lexer__token__scan__character( file__tokenized,
+                                                    _LEXER__TOKEN__TYPE__CHARACTER__LINE_FEED );
             file__tokenized->tokens__current_character__line++;
             file__tokenized->tokens__current_character__column = 0;
             break;
         case ':':
-            token = _bbfpm__lexer__scan_token__character( file__tokenized,
-                                                          _BBFPM__TOKEN__TYPE__CHARACTER__COLON );
+            token = _lexer__token__scan__character( file__tokenized,
+                                                    _LEXER__TOKEN__TYPE__CHARACTER__COLON );
             break;
         case '"':
-            token = _bbfpm__lexer__scan_token__character(
-                file__tokenized, _BBFPM__TOKEN__TYPE__CHARACTER__QUOTATION_MARK );
+            token = _lexer__token__scan__character(
+                file__tokenized, _LEXER__TOKEN__TYPE__CHARACTER__QUOTATION_MARK );
             if ( file__tokenized->tokens[file__tokenized->tokens__total - 1].type !=
-                 _BBFPM__TOKEN__TYPE__VALUE__ARBITRARY )
+                 _LEXER__TOKEN__TYPE__VALUE__ARBITRARY )
             {
-                token__arbitrary_value =
-                    _bbfpm__lexer__scan_token__arbitrary_value( file__tokenized );
+                token__arbitrary_value = _lexer__token__scan__arbitrary_value( file__tokenized );
             }
             break;
         case '[':
-            token = _bbfpm__lexer__scan_token__character(
-                file__tokenized, _BBFPM__TOKEN__TYPE__CHARACTER__SQUARE_BRACKET__OPEN );
+            token = _lexer__token__scan__character(
+                file__tokenized, _LEXER__TOKEN__TYPE__CHARACTER__SQUARE_BRACKET__OPEN );
             break;
         case ']':
-            token = _bbfpm__lexer__scan_token__character(
-                file__tokenized, _BBFPM__TOKEN__TYPE__CHARACTER__SQUARE_BRACKET__CLOSE );
+            token = _lexer__token__scan__character(
+                file__tokenized, _LEXER__TOKEN__TYPE__CHARACTER__SQUARE_BRACKET__CLOSE );
             break;
         case '@':
-            token = _bbfpm__lexer__scan_token__character(
-                file__tokenized, _BBFPM__TOKEN__TYPE__CHARACTER__AT_THE_RATE_SIGN );
+            token = _lexer__token__scan__character(
+                file__tokenized, _LEXER__TOKEN__TYPE__CHARACTER__AT_THE_RATE_SIGN );
             break;
         case ',':
-            token = _bbfpm__lexer__scan_token__character( file__tokenized,
-                                                          _BBFPM__TOKEN__TYPE__CHARACTER__COMMA );
+            token = _lexer__token__scan__character( file__tokenized,
+                                                    _LEXER__TOKEN__TYPE__CHARACTER__COMMA );
             break;
         case '#':
-            token = _bbfpm__lexer__scan_token__character( file__tokenized,
-                                                          _BBFPM__TOKEN__TYPE__CHARACTER__HASH );
+            token = _lexer__token__scan__character( file__tokenized,
+                                                    _LEXER__TOKEN__TYPE__CHARACTER__HASH );
             break;
         default:
-            token = _bbfpm__lexer__scan_token__keyword( file__tokenized );
+            token = _lexer__token__scan__keyword( file__tokenized );
     };
 
-    _bbfpm__return_status token__push_return_status = _BBFPM__RETURN_STATUS__FAILURE;
-    _bbfpm__return_status token__arbitrary_value__push_return_status =
-        _BBFPM__RETURN_STATUS__FAILURE;
+    _output__status token__push_return_status                  = _OUTPUT__STATUS__FAILURE;
+    _output__status token__arbitrary_value__push_return_status = _OUTPUT__STATUS__FAILURE;
 
-    token__push_return_status = _bbfpm__lexer__push_token( file__tokenized, token );
+    token__push_return_status = _lexer__token__push( file__tokenized, token );
 
-    if ( token__arbitrary_value.type == _BBFPM__TOKEN__TYPE__VALUE__ARBITRARY )
+    if ( token__arbitrary_value.type == _LEXER__TOKEN__TYPE__VALUE__ARBITRARY )
     {
         token__arbitrary_value__push_return_status =
-            _bbfpm__lexer__push_token( file__tokenized, token__arbitrary_value );
+            _lexer__token__push( file__tokenized, token__arbitrary_value );
     }
     else
     {
-        token__arbitrary_value__push_return_status = _BBFPM__RETURN_STATUS__SUCCESS;
+        token__arbitrary_value__push_return_status = _OUTPUT__STATUS__SUCCESS;
     }
 
-    return ( token__push_return_status == _BBFPM__RETURN_STATUS__SUCCESS &&
-             token__arbitrary_value__push_return_status == _BBFPM__RETURN_STATUS__SUCCESS )
-               ? _BBFPM__RETURN_STATUS__SUCCESS
-               : _BBFPM__RETURN_STATUS__FAILURE;
+    return ( token__push_return_status == _OUTPUT__STATUS__SUCCESS &&
+             token__arbitrary_value__push_return_status == _OUTPUT__STATUS__SUCCESS )
+               ? _OUTPUT__STATUS__SUCCESS
+               : _OUTPUT__STATUS__FAILURE;
 }
 
-_bbfpm__return_status _bbfpm__file__tokenize( _bbfpm__file__tokenized* file__tokenized )
+_output__status _lexer__file__tokenize( _lexer__file__tokenized* file__tokenized )
 {
-    while ( !_bbfpm__lexer__is_at_end( file__tokenized ) )
+    while ( !_lexer__is_at_end( file__tokenized ) )
     {
-        if ( _bbfpm__lexer__scan_token( file__tokenized ) == _BBFPM__RETURN_STATUS__FAILURE )
-            return _BBFPM__RETURN_STATUS__FAILURE;
+        if ( _lexer__token__scan( file__tokenized ) == _OUTPUT__STATUS__FAILURE )
+            return _OUTPUT__STATUS__FAILURE;
     }
 
-    _bbfpm__token token__eof = _bbfpm__lexer__scan_token__character(
-        file__tokenized, _BBFPM__TOKEN__TYPE__CHARACTER__EOF );
-    if ( _bbfpm__lexer__push_token( file__tokenized, token__eof ) ==
-         _BBFPM__RETURN_STATUS__FAILURE )
-        return _BBFPM__RETURN_STATUS__FAILURE;
+    _lexer__token token__eof =
+        _lexer__token__scan__character( file__tokenized, _LEXER__TOKEN__TYPE__CHARACTER__EOF );
+    if ( _lexer__token__push( file__tokenized, token__eof ) == _OUTPUT__STATUS__FAILURE )
+        return _OUTPUT__STATUS__FAILURE;
 
-    return _BBFPM__RETURN_STATUS__SUCCESS;
+    return _OUTPUT__STATUS__SUCCESS;
 }

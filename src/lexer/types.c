@@ -22,36 +22,36 @@
 #include "lexer/types.h"
 #include "logging/logging.h"
 
-const char* const _bbfpm__token__type__keywords[] = { "NONE",         "NAME",         "REPOSITORY",
-                                                      "VERSION",      "RELEASE-DATE", "AUTHORS",
-                                                      "DEPENDENCIES", "LICENSE",      NULL };
+const char* const _lexer__keywords[] = { "NONE",         "NAME",         "REPOSITORY",
+                                         "VERSION",      "RELEASE-DATE", "AUTHORS",
+                                         "DEPENDENCIES", "LICENSE",      NULL };
 
-_bbfpm__return_status _bbfpm__file__tokenized__initialize( _bbfpm__file__tokenized* file__tokenized,
-                                                           const char*              file__path )
+_output__status _lexer__file__tokenized__initialize( _lexer__file__tokenized* file__tokenized,
+                                                     const char*              file__path )
 {
-    memset( file__tokenized, 0, sizeof( _bbfpm__file__tokenized ) );
+    memset( file__tokenized, 0, sizeof( _lexer__file__tokenized ) );
 
-    _bbfpm__file* bbfpm_file = _bbfpm__open_bbfpm_file( file__path );
+    _input__file* bbfpm_file = _input__file__open( file__path );
     if ( bbfpm_file == NULL )
-        return _BBFPM__RETURN_STATUS__FAILURE;
+        return _OUTPUT__STATUS__FAILURE;
     file__tokenized->file = bbfpm_file;
 
     static const uint64_t TOKENS__CAPACITY__INITIAL_VALUE = 10;
     file__tokenized->tokens__capacity                     = TOKENS__CAPACITY__INITIAL_VALUE;
     file__tokenized->tokens__total                        = 0;
     if ( ( file__tokenized->tokens =
-               calloc( TOKENS__CAPACITY__INITIAL_VALUE, sizeof( _bbfpm__token ) ) ) == NULL )
+               calloc( TOKENS__CAPACITY__INITIAL_VALUE, sizeof( _lexer__token ) ) ) == NULL )
     {
-        _BBFPM__LOG__PRINT__FATAL( "lexer: failed allocating memory for _bbfpm__file__tokenized "
-                                   "struct member: 'tokens'." );
-        return _BBFPM__RETURN_STATUS__FAILURE;
+        _LOGGING__PRINT__FATAL( "lexer: failed allocating memory for _lexer__file__tokenized "
+                                "struct member: 'tokens'." );
+        return _OUTPUT__STATUS__FAILURE;
     }
 
-    return _BBFPM__RETURN_STATUS__SUCCESS;
+    return _OUTPUT__STATUS__SUCCESS;
 }
 
-void _bbfpm__file__tokenized__free( _bbfpm__file__tokenized* file__tokenized )
+void _lexer__file__tokenized__free( _lexer__file__tokenized* file__tokenized )
 {
-    _bbfpm__close_bbfpm_file( file__tokenized->file );
+    _input__file__close( file__tokenized->file );
     free( file__tokenized->tokens );
 }

@@ -26,15 +26,14 @@
 #include "lexer/types.h"
 #include "output/types.h"
 
-_bbfpm__return_status _bbfpm__lexer__push_token( _bbfpm__file__tokenized* file__tokenized,
-                                                 _bbfpm__token            token );
-_bbfpm__token _bbfpm__lexer__scan_token__character( _bbfpm__file__tokenized* file__tokenized,
-                                                    _bbfpm__token__type      type );
-_bbfpm__token _bbfpm__lexer__scan_token__keyword( _bbfpm__file__tokenized* file__tokenizied );
-_bbfpm__token
-_bbfpm__lexer__scan_token__arbitrary_value( _bbfpm__file__tokenized* file__tokenized );
-_bbfpm__return_status _bbfpm__lexer__scan_token( _bbfpm__file__tokenized* file__tokenized );
+_output__status _lexer__token__push( _lexer__file__tokenized* file__tokenized,
+                                     _lexer__token            token );
+_lexer__token   _lexer__token__scan__character( _lexer__file__tokenized* file__tokenized,
+                                                _lexer__token__type      type );
+_lexer__token   _lexer__token__scan__keyword( _lexer__file__tokenized* file__tokenizied );
+_lexer__token   _lexer__token__scan__arbitrary_value( _lexer__file__tokenized* file__tokenized );
+_output__status _lexer__token__scan( _lexer__file__tokenized* file__tokenized );
 
-_bbfpm__return_status _bbfpm__file__tokenize( _bbfpm__file__tokenized* file__tokenized );
+_output__status _lexer__file__tokenize( _lexer__file__tokenized* file__tokenized );
 
 #endif

@@ -22,8 +22,8 @@
 
 #include "logging/logging.h"
 
-void _bbfpm__log__print( _bbfpm__log__level log__level, const char* file__path,
-                         const char* function, int line, const char* format, ... )
+void _logging__print( _logging__level log__level, const char* file__path, const char* function,
+                      int line, const char* format, ... )
 {
     static const char* LOG__LEVEL_PREFIX[] = { "DEBUG", "INFO ", "WARN ", "ERROR", "FATAL" };
 

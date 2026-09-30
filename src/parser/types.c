@@ -23,36 +23,36 @@
 #include "logging/logging.h"
 #include "parser/types.h"
 
-_bbfpm__return_status _bbfpm__file__parsed__initialize( _bbfpm__file__parsed* file__parsed,
-                                                        const char*           file__path )
+_output__status _parser__file__parsed__initialize( _parser__file__parsed* file__parsed,
+                                                   const char*            file__path )
 {
-    _bbfpm__file__tokenized* file__tokenized = malloc( sizeof( _bbfpm__file__tokenized ) );
-    if ( _bbfpm__file__tokenized__initialize( file__tokenized, file__path ) ==
-         _BBFPM__RETURN_STATUS__FAILURE )
-        return _BBFPM__RETURN_STATUS__FAILURE;
+    _lexer__file__tokenized* file__tokenized = malloc( sizeof( _lexer__file__tokenized ) );
+    if ( _lexer__file__tokenized__initialize( file__tokenized, file__path ) ==
+         _OUTPUT__STATUS__FAILURE )
+        return _OUTPUT__STATUS__FAILURE;
 
-    if ( _bbfpm__file__tokenize( file__tokenized ) == _BBFPM__RETURN_STATUS__FAILURE )
-        return _BBFPM__RETURN_STATUS__FAILURE;
+    if ( _lexer__file__tokenize( file__tokenized ) == _OUTPUT__STATUS__FAILURE )
+        return _OUTPUT__STATUS__FAILURE;
 
     file__parsed->file__tokenized = file__tokenized;
 
     static const uint64_t KEYS__CAPACITY__INITIAL_VALUE = 10;
     file__parsed->keys__capacity                        = KEYS__CAPACITY__INITIAL_VALUE;
     file__parsed->keys__total                           = 0;
-    if ( ( file__parsed->keys = calloc( KEYS__CAPACITY__INITIAL_VALUE, sizeof( _bbfpm__key ) ) ) ==
+    if ( ( file__parsed->keys = calloc( KEYS__CAPACITY__INITIAL_VALUE, sizeof( _parser__key ) ) ) ==
          NULL )
     {
-        _BBFPM__LOG__PRINT__FATAL(
-            "parser: failed allocating memory for _bbfpm__file__parsed struct member: 'keys'." );
-        return _BBFPM__RETURN_STATUS__FAILURE;
+        _LOGGING__PRINT__FATAL(
+            "parser: failed allocating memory for _parser__file__parsed struct member: 'keys'." );
+        return _OUTPUT__STATUS__FAILURE;
     }
 
-    return _BBFPM__RETURN_STATUS__SUCCESS;
+    return _OUTPUT__STATUS__SUCCESS;
 }
 
-_bbfpm__return_status _bbfpm__file__parsed__free( _bbfpm__file__parsed* file__parsed )
+_output__status _parser__file__parsed__free( _parser__file__parsed* file__parsed )
 {
-    _bbfpm__file__tokenized__free( file__parsed->file__tokenized );
+    _lexer__file__tokenized__free( file__parsed->file__tokenized );
 
     for ( uint64_t index__key = 0; index__key < file__parsed->keys__total; index__key++ )
     {
@@ -79,5 +79,5 @@ _bbfpm__return_status _bbfpm__file__parsed__free( _bbfpm__file__parsed* file__pa
     file__parsed->keys           = NULL;
     file__parsed->keys__capacity = 0;
     file__parsed->keys__total    = 0;
-    return _BBFPM__RETURN_STATUS__SUCCESS;
+    return _OUTPUT__STATUS__SUCCESS;
 }

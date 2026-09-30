@@ -24,29 +24,29 @@
 #include "input/file.h"
 #include "logging/logging.h"
 
-_bbfpm__file* _bbfpm__open_bbfpm_file( const char* file_path )
+_input__file* _input__file__open( const char* file_path )
 {
-    _bbfpm__file* raw_bbfpm_file = malloc( sizeof( _bbfpm__file ) );
+    _input__file* raw_bbfpm_file = malloc( sizeof( _input__file ) );
     FILE*         file_pointer   = NULL;
     if ( ( file_pointer = fopen( file_path, "rb" ) ) == NULL )
     {
-        _BBFPM__LOG__PRINT__ERROR( "failed to open the provided file: %s. errno: %s", file_path,
-                                   strerror( errno ) );
+        _LOGGING__PRINT__ERROR( "failed to open the provided file: %s. errno: %s", file_path,
+                                strerror( errno ) );
         goto on_error;
     }
 
     if ( fseek( file_pointer, 0, SEEK_END ) == -1 )
     {
-        _BBFPM__LOG__PRINT__ERROR( "failed seeking opened file: %s (%p) to it's end. errno: %s",
-                                   file_path, file_pointer, strerror( errno ) );
+        _LOGGING__PRINT__ERROR( "failed seeking opened file: %s (%p) to it's end. errno: %s",
+                                file_path, file_pointer, strerror( errno ) );
         goto on_error;
     }
 
     if ( ( raw_bbfpm_file->size = ftell( file_pointer ) ) == -1 )
     {
-        _BBFPM__LOG__PRINT__ERROR( "failed getting the current value of the file position "
-                                   "indicator in the opened file: %s (%p). errno: %s",
-                                   file_path, file_pointer, strerror( errno ) );
+        _LOGGING__PRINT__ERROR( "failed getting the current value of the file position "
+                                "indicator in the opened file: %s (%p). errno: %s",
+                                file_path, file_pointer, strerror( errno ) );
         goto on_error;
     }
 
@@ -54,8 +54,8 @@ _bbfpm__file* _bbfpm__open_bbfpm_file( const char* file_path )
 
     if ( ( raw_bbfpm_file->content = malloc( sizeof( char ) * raw_bbfpm_file->size + 1 ) ) == NULL )
     {
-        _BBFPM__LOG__PRINT__ERROR(
-            "failed allocating memory for _bbfpm__file struct member: 'content'. errno: %s",
+        _LOGGING__PRINT__ERROR(
+            "failed allocating memory for _input__file struct member: 'content'. errno: %s",
             strerror( errno ) );
         goto on_error;
     }
@@ -65,9 +65,9 @@ _bbfpm__file* _bbfpm__open_bbfpm_file( const char* file_path )
     if ( fread( raw_bbfpm_file->content, 1, raw_bbfpm_file->size, file_pointer ) !=
          raw_bbfpm_file->size )
     {
-        _BBFPM__LOG__PRINT__ERROR( "failed reading opened file and storing it. Chunk size: 1. "
-                                   "Total chunks: %ld. errno: %s",
-                                   raw_bbfpm_file->size, strerror( errno ) );
+        _LOGGING__PRINT__ERROR( "failed reading opened file and storing it. Chunk size: 1. "
+                                "Total chunks: %ld. errno: %s",
+                                raw_bbfpm_file->size, strerror( errno ) );
         goto on_error;
     }
 
@@ -75,11 +75,11 @@ _bbfpm__file* _bbfpm__open_bbfpm_file( const char* file_path )
 
 on_error:
     fclose( file_pointer );
-    _bbfpm__close_bbfpm_file( raw_bbfpm_file );
+    _input__file__close( raw_bbfpm_file );
     return NULL;
 }
 
-void _bbfpm__close_bbfpm_file( _bbfpm__file* file )
+void _input__file__close( _input__file* file )
 {
     free( file->content );
     free( file );

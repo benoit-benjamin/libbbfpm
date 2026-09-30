@@ -19,7 +19,7 @@
 #include "lexer/primitives.h"
 #include "lexer/types.h"
 
-bool _bbfpm__lexer__is_at_end( _bbfpm__file__tokenized* file__tokenized )
+bool _lexer__is_at_end( _lexer__file__tokenized* file__tokenized )
 {
     if ( file__tokenized->tokens__current_character__position >= file__tokenized->file->size )
     {
@@ -28,14 +28,14 @@ bool _bbfpm__lexer__is_at_end( _bbfpm__file__tokenized* file__tokenized )
     return false;
 }
 
-char _bbfpm__lexer__peek( _bbfpm__file__tokenized* file__tokenized )
+char _lexer__peek( _lexer__file__tokenized* file__tokenized )
 {
     return file__tokenized->file->content[file__tokenized->tokens__current_character__position];
 }
 
-char _bbfpm__lexer__advance( _bbfpm__file__tokenized* file__tokenized )
+char _lexer__advance( _lexer__file__tokenized* file__tokenized )
 {
-    if ( !_bbfpm__lexer__is_at_end( file__tokenized ) )
+    if ( !_lexer__is_at_end( file__tokenized ) )
     {
         return file__tokenized->file
             ->content[file__tokenized->tokens__current_character__position++];
@@ -43,7 +43,7 @@ char _bbfpm__lexer__advance( _bbfpm__file__tokenized* file__tokenized )
     return -1;
 }
 
-char _bbfpm__lexer__rewind( _bbfpm__file__tokenized* file__tokenized )
+char _lexer__rewind( _lexer__file__tokenized* file__tokenized )
 {
     if ( file__tokenized->tokens__current_character__position != 0 )
     {
@@ -53,7 +53,7 @@ char _bbfpm__lexer__rewind( _bbfpm__file__tokenized* file__tokenized )
     return -1;
 }
 
-char _bbfpm__lexer__peek_next( _bbfpm__file__tokenized* file__tokenized, uint64_t offset )
+char _lexer__peek_next( _lexer__file__tokenized* file__tokenized, uint64_t offset )
 {
     if ( file__tokenized->file->size >
          file__tokenized->tokens__current_character__position + offset )
@@ -64,12 +64,12 @@ char _bbfpm__lexer__peek_next( _bbfpm__file__tokenized* file__tokenized, uint64_
     return -1;
 }
 
-bool _bbfpm__lexer__match( _bbfpm__file__tokenized* file__tokenized, char expected )
+bool _lexer__match( _lexer__file__tokenized* file__tokenized, char expected )
 {
     if ( file__tokenized->file->content[file__tokenized->tokens__current_character__position] ==
          expected )
     {
-        ( !_bbfpm__lexer__is_at_end( file__tokenized ) )
+        ( !_lexer__is_at_end( file__tokenized ) )
             ? ++file__tokenized->tokens__current_character__position
             : file__tokenized->tokens__current_character__position;
         return true;

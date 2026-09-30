@@ -23,14 +23,14 @@
 
 #include "parser/types.h"
 
-typedef struct _bbfpm__field_schema
+typedef struct
 {
-    const char*       name;
-    _bbfpm__key__type type;
-    bool              none_allowed;
-    uint64_t          offset;
-} _bbfpm__field_schema;
+    const char*        name;
+    _parser__key__type type;
+    bool               none_allowed;
+    uint64_t           offset;
+} _schema__field;
 
-extern _bbfpm__field_schema _bbfpm__schema[];
+extern _schema__field _bbfpm__schema[];
 
 #endif

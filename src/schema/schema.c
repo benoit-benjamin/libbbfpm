@@ -24,7 +24,7 @@
 #include "schema/schema.h"
 #include "schema/types.h"
 
-bool _bbfpm__verify__file__parsed__through_schema( _bbfpm__file__parsed* file__parsed )
+bool _schema__validate( _parser__file__parsed* file__parsed )
 {
     for ( uint16_t index__schema = 0; _bbfpm__schema[index__schema].name != NULL; index__schema++ )
     {
@@ -51,7 +51,7 @@ bool _bbfpm__verify__file__parsed__through_schema( _bbfpm__file__parsed* file__p
 
         if ( !found_coincidence )
         {
-            _BBFPM__LOG__PRINT__ERROR(
+            _LOGGING__PRINT__ERROR(
                 "schema: couldn't find metadata key coincidence. Expected metadata: %s",
                 _bbfpm__schema[index__schema].name );
             return false;

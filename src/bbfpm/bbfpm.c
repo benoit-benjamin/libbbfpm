@@ -26,13 +26,13 @@
 
 typedef struct BBFPM__Metadata
 {
-    _bbfpm__data__entry name;
-    _bbfpm__data__entry repository;
-    _bbfpm__data__entry version;
-    _bbfpm__data__entry release_date;
-    _bbfpm__data__entry license;
-    _bbfpm__data__entry authors;
-    _bbfpm__data__entry dependencies;
+    _data_mapper__entry name;
+    _data_mapper__entry repository;
+    _data_mapper__entry version;
+    _data_mapper__entry release_date;
+    _data_mapper__entry license;
+    _data_mapper__entry authors;
+    _data_mapper__entry dependencies;
 } BBFPM__Metadata;
 
 BBFPM__Metadata* BBFPM__LoadMetadata( const char* file__path )
@@ -40,18 +40,15 @@ BBFPM__Metadata* BBFPM__LoadMetadata( const char* file__path )
     BBFPM__Metadata* metadata = malloc( sizeof( BBFPM__Metadata ) );
     memset( metadata, 0, sizeof( BBFPM__Metadata ) );
 
-    _bbfpm__file__parsed file__parsed = { 0 };
-    if ( _bbfpm__file__parsed__parse( &file__parsed, file__path ) ==
-         _BBFPM__RETURN_STATUS__FAILURE )
+    _parser__file__parsed file__parsed = { 0 };
+    if ( _parser__file__parsed__parse( &file__parsed, file__path ) == _OUTPUT__STATUS__FAILURE )
         return NULL;
 
-    if ( _bbfpm__verify__file__parsed__through_schema( &file__parsed ) ==
-         _BBFPM__RETURN_STATUS__FAILURE )
+    if ( _schema__validate( &file__parsed ) == _OUTPUT__STATUS__FAILURE )
         return NULL;
 
-    _bbfpm__mapped_metadata mapped_metadata = { 0 };
-    if ( _bbfpm__map_metadata_from__file__parsed( &file__parsed, &mapped_metadata ) ==
-         _BBFPM__RETURN_STATUS__FAILURE )
+    _data_mapper__metadata mapped_metadata = { 0 };
+    if ( _data_mapper__map_metadata( &file__parsed, &mapped_metadata ) == _OUTPUT__STATUS__FAILURE )
         return NULL;
 
     metadata->name.value          = ( mapped_metadata.name.value != NULL )
@@ -107,7 +104,7 @@ BBFPM__Metadata* BBFPM__LoadMetadata( const char* file__path )
         metadata->dependencies.extent = 0;
     }
 
-    _bbfpm__mapped_metadata__free( &mapped_metadata, &file__parsed );
+    _data_mapper__metadata__free( &mapped_metadata, &file__parsed );
 
     return metadata;
 }

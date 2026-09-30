@@ -3,21 +3,21 @@
 
 #include <stdint.h>
 
-typedef struct _bbfpm__data__entry
+typedef struct _data_mapper__entry
 {
     void*    value;
     uint32_t extent;
-} _bbfpm__data__entry;
+} _data_mapper__entry;
 
-typedef struct _bbfpm__data
+typedef struct _data_mapper__metadata
 {
-    _bbfpm__data__entry name;
-    _bbfpm__data__entry repository;
-    _bbfpm__data__entry version;
-    _bbfpm__data__entry release_date;
-    _bbfpm__data__entry license;
-    _bbfpm__data__entry authors;
-    _bbfpm__data__entry dependencies;
-} _bbfpm__mapped_metadata;
+    _data_mapper__entry name;
+    _data_mapper__entry repository;
+    _data_mapper__entry version;
+    _data_mapper__entry release_date;
+    _data_mapper__entry license;
+    _data_mapper__entry authors;
+    _data_mapper__entry dependencies;
+} _data_mapper__metadata;
 
 #endif
