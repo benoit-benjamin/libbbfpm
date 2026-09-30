@@ -1,5 +1,5 @@
 /*
- * lexer.c - functions and data structures for file tokenization
+ * lexer.c - functions for file tokenization
  * Copyright (C) 2026  Benjamin Benoit
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,101 +21,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "input/file.h"
 #include "lexer/lexer.h"
+#include "lexer/primitives.h"
 #include "logging/logging.h"
-
-const char* const _bbfpm__token__type__keywords[] = { "NONE",         "NAME",         "REPOSITORY",
-                                                      "VERSION",      "RELEASE-DATE", "AUTHORS",
-                                                      "DEPENDENCIES", "LICENSE",      NULL };
-
-_bbfpm__return_status _bbfpm__file__tokenized__initialize( _bbfpm__file__tokenized* file__tokenized,
-                                                           const char*              file__path )
-{
-    memset( file__tokenized, 0, sizeof( _bbfpm__file__tokenized ) );
-
-    _bbfpm__file* bbfpm_file = _bbfpm__open_bbfpm_file( file__path );
-    if ( bbfpm_file == NULL )
-        return _BBFPM__RETURN_STATUS__FAILURE;
-    file__tokenized->file = bbfpm_file;
-
-    static const uint64_t TOKENS__CAPACITY__INITIAL_VALUE = 10;
-    file__tokenized->tokens__capacity                     = TOKENS__CAPACITY__INITIAL_VALUE;
-    file__tokenized->tokens__total                        = 0;
-    if ( ( file__tokenized->tokens =
-               calloc( TOKENS__CAPACITY__INITIAL_VALUE, sizeof( _bbfpm__token ) ) ) == NULL )
-    {
-        _BBFPM__LOG__PRINT__FATAL( "lexer: failed allocating memory for _bbfpm__file__tokenized "
-                                   "struct member: 'tokens'." );
-        return _BBFPM__RETURN_STATUS__FAILURE;
-    }
-
-    return _BBFPM__RETURN_STATUS__SUCCESS;
-}
-
-void _bbfpm__file__tokenized__free( _bbfpm__file__tokenized* file__tokenized )
-{
-    _bbfpm__close_bbfpm_file( file__tokenized->file );
-    free( file__tokenized->tokens );
-}
-
-bool _bbfpm__lexer__is_at_end( _bbfpm__file__tokenized* file__tokenized )
-{
-    if ( file__tokenized->tokens__current_character__position >= file__tokenized->file->size )
-    {
-        return true;
-    }
-    return false;
-}
-
-char _bbfpm__lexer__peek( _bbfpm__file__tokenized* file__tokenized )
-{
-    return file__tokenized->file->content[file__tokenized->tokens__current_character__position];
-}
-
-char _bbfpm__lexer__advance( _bbfpm__file__tokenized* file__tokenized )
-{
-    if ( !_bbfpm__lexer__is_at_end( file__tokenized ) )
-    {
-        return file__tokenized->file
-            ->content[file__tokenized->tokens__current_character__position++];
-    }
-    return -1;
-}
-
-char _bbfpm__lexer__rewind( _bbfpm__file__tokenized* file__tokenized )
-{
-    if ( file__tokenized->tokens__current_character__position != 0 )
-    {
-        return file__tokenized->file
-            ->content[--file__tokenized->tokens__current_character__position];
-    }
-    return -1;
-}
-
-char _bbfpm__lexer__peek_next( _bbfpm__file__tokenized* file__tokenized, uint64_t offset )
-{
-    if ( file__tokenized->file->size >
-         file__tokenized->tokens__current_character__position + offset )
-    {
-        return file__tokenized->file
-            ->content[file__tokenized->tokens__current_character__position + offset];
-    }
-    return -1;
-}
-
-bool _bbfpm__lexer__match( _bbfpm__file__tokenized* file__tokenized, char expected )
-{
-    if ( file__tokenized->file->content[file__tokenized->tokens__current_character__position] ==
-         expected )
-    {
-        ( !_bbfpm__lexer__is_at_end( file__tokenized ) )
-            ? ++file__tokenized->tokens__current_character__position
-            : file__tokenized->tokens__current_character__position;
-        return true;
-    }
-    return false;
-}
 
 _bbfpm__return_status _bbfpm__lexer__push_token( _bbfpm__file__tokenized* file__tokenized,
                                                  _bbfpm__token            token )

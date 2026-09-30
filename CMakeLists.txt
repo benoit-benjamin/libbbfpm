@@ -35,6 +35,8 @@ target_link_libraries(libbbfpm__helper__io__input
 # --------------- LEXER ---------------
 add_library(libbbfpm__lexer OBJECT
 	${CMAKE_CURRENT_SOURCE_DIR}/src/lexer/lexer.c
+	${CMAKE_CURRENT_SOURCE_DIR}/src/lexer/primitives.c
+	${CMAKE_CURRENT_SOURCE_DIR}/src/lexer/types.c
 )
 target_include_directories(libbbfpm__lexer PUBLIC
 	${CMAKE_CURRENT_SOURCE_DIR}/include
