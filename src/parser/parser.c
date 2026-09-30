@@ -1,5 +1,5 @@
 /*
- * parser.c - functions and data structures for parsing tokenized files
+ * parser.c - functions for parsing tokenized files
  * Copyright (C) 2026  Benjamin Benoit
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,123 +21,12 @@
 #include <string.h>
 
 #include "lexer/lexer.h"
+#include "lexer/types.h"
 #include "logging/logging.h"
 #include "output/types.h"
 #include "parser/parser.h"
-
-_bbfpm__return_status _bbfpm__file__parsed__initialize( _bbfpm__file__parsed* file__parsed,
-                                                        const char*           file__path )
-{
-    _bbfpm__file__tokenized* file__tokenized = malloc( sizeof( _bbfpm__file__tokenized ) );
-    if ( _bbfpm__file__tokenized__initialize( file__tokenized, file__path ) ==
-         _BBFPM__RETURN_STATUS__FAILURE )
-        return _BBFPM__RETURN_STATUS__FAILURE;
-
-    if ( _bbfpm__file__tokenize( file__tokenized ) == _BBFPM__RETURN_STATUS__FAILURE )
-        return _BBFPM__RETURN_STATUS__FAILURE;
-
-    file__parsed->file__tokenized = file__tokenized;
-
-    static const uint64_t KEYS__CAPACITY__INITIAL_VALUE = 10;
-    file__parsed->keys__capacity                        = KEYS__CAPACITY__INITIAL_VALUE;
-    file__parsed->keys__total                           = 0;
-    if ( ( file__parsed->keys = calloc( KEYS__CAPACITY__INITIAL_VALUE, sizeof( _bbfpm__key ) ) ) ==
-         NULL )
-    {
-        _BBFPM__LOG__PRINT__FATAL(
-            "parser: failed allocating memory for _bbfpm__file__parsed struct member: 'keys'." );
-        return _BBFPM__RETURN_STATUS__FAILURE;
-    }
-
-    return _BBFPM__RETURN_STATUS__SUCCESS;
-}
-
-_bbfpm__return_status _bbfpm__file__parsed__free( _bbfpm__file__parsed* file__parsed )
-{
-    _bbfpm__file__tokenized__free( file__parsed->file__tokenized );
-
-    for ( uint64_t index__key = 0; index__key < file__parsed->keys__total; index__key++ )
-    {
-        switch ( file__parsed->keys[index__key].type )
-        {
-            case _BBFPM__KEY__TYPE__ARBITRARY:
-                free( (char*) ( file__parsed->keys[index__key].value ) );
-                continue;
-            case _BBFPM__KEY__TYPE__LIST_CORRELATED_ARBITRARY:
-                for ( uint32_t value__element = 0;
-                      value__element < file__parsed->keys[index__key].value__size;
-                      value__element++ )
-                    free( ( (char**) file__parsed->keys[index__key].value )[value__element] );
-                free( ( (char**) file__parsed->keys[index__key].value ) );
-                continue;
-            case _BBFPM__KEY__TYPE__NONE:
-                continue;
-            case _BBFPM__KEY__TYPE__UNDEFINED:
-                continue;
-        }
-    }
-
-    free( file__parsed->keys );
-    file__parsed->keys           = NULL;
-    file__parsed->keys__capacity = 0;
-    file__parsed->keys__total    = 0;
-    return _BBFPM__RETURN_STATUS__SUCCESS;
-}
-
-bool _bbfpm__parser__is_at_end( _bbfpm__file__parsed* file__parsed )
-{
-    if ( file__parsed->file__tokenized->tokens__current_token__position >=
-         file__parsed->file__tokenized->tokens__total )
-    {
-        return true;
-    }
-    return false;
-}
-
-_bbfpm__token _bbfpm__parser__peek( _bbfpm__file__parsed* file__parsed )
-{
-    return file__parsed->file__tokenized
-        ->tokens[file__parsed->file__tokenized->tokens__current_token__position];
-}
-
-_bbfpm__token _bbfpm__parser__advance( _bbfpm__file__parsed* file__parsed )
-{
-    if ( !_bbfpm__parser__is_at_end( file__parsed ) )
-    {
-        return file__parsed->file__tokenized
-            ->tokens[file__parsed->file__tokenized->tokens__current_token__position++];
-    }
-    return (_bbfpm__token) {
-        .type = _BBFPM__TOKEN__TYPE__UNDEFINED, .column = 0, .line = 0, .value = { 0 }
-    };
-}
-
-_bbfpm__token _bbfpm__parser__peek_next( _bbfpm__file__parsed* file__parsed, uint64_t offset )
-{
-    if ( file__parsed->file__tokenized->tokens__total >
-         file__parsed->file__tokenized->tokens__current_token__position + offset )
-    {
-        return file__parsed->file__tokenized
-            ->tokens[file__parsed->file__tokenized->tokens__current_token__position + offset];
-    }
-    return (_bbfpm__token) {
-        .type = _BBFPM__TOKEN__TYPE__UNDEFINED, .column = 0, .line = 0, .value = { 0 }
-    };
-}
-
-bool _bbfpm__parser__match( _bbfpm__file__parsed* file__parsed, _bbfpm__token expected )
-{
-    if ( file__parsed->file__tokenized
-             ->tokens[file__parsed->file__tokenized->tokens__current_token__position]
-             .type == expected.type )
-    {
-        ( !_bbfpm__parser__is_at_end( file__parsed ) )
-            ? ++file__parsed->file__tokenized->tokens__current_token__position
-            : file__parsed->file__tokenized->tokens__current_token__position;
-        return true;
-    }
-    return false;
-}
+#include "parser/primitives.h"
+#include "parser/types.h"
 
 _bbfpm__return_status _bbfpm__parser__push_key( _bbfpm__file__parsed* file__parsed,
                                                 _bbfpm__key           key )

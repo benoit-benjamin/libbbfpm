@@ -52,6 +52,8 @@ target_link_libraries(libbbfpm__lexer
 # --------------- PARSER ---------------
 add_library(libbbfpm__parser OBJECT
 	${CMAKE_CURRENT_SOURCE_DIR}/src/parser/parser.c
+	${CMAKE_CURRENT_SOURCE_DIR}/src/parser/primitives.c
+	${CMAKE_CURRENT_SOURCE_DIR}/src/parser/types.c
 )
 target_include_directories(libbbfpm__parser PUBLIC
 	${CMAKE_CURRENT_SOURCE_DIR}/include

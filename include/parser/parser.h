@@ -1,5 +1,5 @@
 /*
- * parser.h - functions and data structures for parsing tokenized files
+ * parser.h - functions for parsing tokenized files
  * Copyright (C) 2026  Benjamin Benoit
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,46 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef BBFPM__PARSER__H
-#define BBFPM__PARSER__H
+#ifndef BBFPM__PARSER__PARSER__H
+#define BBFPM__PARSER__PARSER__H
 
-#include "lexer/lexer.h"
 #include "output/types.h"
-
-typedef enum _bbfpm__key__type
-{
-    _BBFPM__KEY__TYPE__ARBITRARY,
-    _BBFPM__KEY__TYPE__LIST_CORRELATED_ARBITRARY,
-    _BBFPM__KEY__TYPE__NONE,
-    _BBFPM__KEY__TYPE__UNDEFINED,
-} _bbfpm__key__type;
-
-typedef struct _bbfpm__key
-{
-    char              name[MAX__TOKEN__SIZE];
-    _bbfpm__key__type type;
-    void*             value;
-    uint32_t          value__size;
-    uint64_t          offset;
-} _bbfpm__key;
-
-typedef struct _bbfpm__file__parsed
-{
-    _bbfpm__key*             keys;
-    _bbfpm__file__tokenized* file__tokenized;
-    uint64_t                 keys__capacity;
-    uint64_t                 keys__total;
-} _bbfpm__file__parsed;
-
-_bbfpm__return_status _bbfpm__file__parsed__initialize( _bbfpm__file__parsed* file__parsed,
-                                                        const char*           file__path );
-_bbfpm__return_status _bbfpm__file__parsed__free( _bbfpm__file__parsed* file__parsed );
-
-bool          _bbfpm__parser__is_at_end( _bbfpm__file__parsed* file__parsed );
-_bbfpm__token _bbfpm__parser__peek( _bbfpm__file__parsed* file__parsed );
-_bbfpm__token _bbfpm__parser__advance( _bbfpm__file__parsed* file__parsed );
-_bbfpm__token _bbfpm__parser__peek_next( _bbfpm__file__parsed* file__parsed, uint64_t offset );
-bool          _bbfpm__parser__match( _bbfpm__file__parsed* file__parsed, _bbfpm__token expected );
+#include "parser/types.h"
 
 _bbfpm__return_status _bbfpm__parser__push_key( _bbfpm__file__parsed* file__parsed,
                                                 _bbfpm__key           key );
