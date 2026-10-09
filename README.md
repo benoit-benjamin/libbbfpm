@@ -1,6 +1,7 @@
-# libbbfpm
-
-BBFPM (Benjamin Benoit's Format for Project Metadata) format processor library for C
+<div align="center">
+	<img src="assets/logo.png" width="150" height="150">
+	<h1>BBFPM (Benjamin Benoit's Format for Project Metadata) format processor library for C</h1>
+</div>
 
 <div>
     <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/benoit-benjamin/libbbfpm/cmake-single-platform.yml?style=plastic">
